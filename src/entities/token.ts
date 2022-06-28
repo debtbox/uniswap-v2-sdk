@@ -10,7 +10,7 @@ export class Token extends Currency {
   public readonly chainId: ChainId
   public readonly address: string
 
-  public constructor(chainId: ChainId, address: string, decimals: number, symbol?: string, name?: string) {
+  public constructor (chainId: ChainId, address: string, decimals: number, symbol?: string, name?: string) {
     super(decimals, symbol, name)
     this.chainId = chainId
     this.address = validateAndParseAddress(address)
@@ -20,7 +20,7 @@ export class Token extends Currency {
    * Returns true if the two tokens are equivalent, i.e. have the same chainId and address.
    * @param other other token to compare
    */
-  public equals(other: Token): boolean {
+  public equals (other: Token): boolean {
     // short circuit on reference equality
     if (this === other) {
       return true
@@ -34,7 +34,7 @@ export class Token extends Currency {
    * @throws if the tokens have the same address
    * @throws if the tokens are on different chains
    */
-  public sortsBefore(other: Token): boolean {
+  public sortsBefore (other: Token): boolean {
     invariant(this.chainId === other.chainId, 'CHAIN_IDS')
     invariant(this.address !== other.address, 'ADDRESSES')
     return this.address.toLowerCase() < other.address.toLowerCase()
@@ -44,7 +44,7 @@ export class Token extends Currency {
 /**
  * Compares two currencies for equality
  */
-export function currencyEquals(currencyA: Currency, currencyB: Currency): boolean {
+export function currencyEquals (currencyA: Currency, currencyB: Currency): boolean {
   if (currencyA instanceof Token && currencyB instanceof Token) {
     return currencyA.equals(currencyB)
   } else if (currencyA instanceof Token) {
@@ -79,5 +79,19 @@ export const WETH = {
     'Wrapped Ether'
   ),
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'),
-  [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether')
+  [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'),
+  [ChainId.BINANCE_TESTNET]: new Token(
+    ChainId.BINANCE_TESTNET,
+    '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+    18,
+    'WBNB',
+    'Test WBNB'
+  ),
+  [ChainId.BINANCE_MAINNET]: new Token(
+    ChainId.BINANCE_MAINNET,
+    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+    18,
+    'WBNB',
+    'WBNB'
+  )
 }
